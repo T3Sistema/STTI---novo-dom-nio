@@ -207,6 +207,26 @@ const HunterLeadHistoryModal: React.FC<{
             <Modal isOpen={isOpen && !isAppointmentModalOpen} onClose={onClose}>
                 <div className="p-2 space-y-4">
                     <h2 className="text-2xl font-bold text-center">Histórico do Lead: {lead.leadName}</h2>
+
+                    {currentStage?.name === 'Agendado' && lead.appointment_at && (
+                        <div className="p-3 bg-dark-background rounded-lg border border-dark-border text-center space-y-2 mb-4">
+                            <p className="text-sm font-semibold text-dark-secondary">Agendamento Ativo</p>
+                            <div className="flex items-center justify-center gap-2">
+                                <CalendarIcon className="w-5 h-5 text-dark-primary"/>
+                                <p className="text-lg font-bold text-dark-text">
+                                    {new Date(lead.appointment_at).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' })}
+                                </p>
+                            </div>
+                            <button
+                                type="button"
+                                onClick={handleOpenAppointmentModal}
+                                className="text-sm font-bold text-dark-primary hover:underline"
+                            >
+                                Reagendar
+                            </button>
+                        </div>
+                    )}
+
                     <div className="p-2 bg-dark-background rounded-lg border border-dark-border text-center">
                         <p className="text-dark-secondary">{lead.leadPhone}</p>
                     </div>

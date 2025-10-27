@@ -44,6 +44,7 @@ const calculateMetrics = (vehicles: Vehicle[]): SalesData => {
     const totalRevenue = vehicles.reduce((acc, v) => acc + ((v.announcedPrice || 0) - (v.discount || 0)), 0);
     const totalProfit = vehicles.reduce((acc, v) => {
         const salePrice = (v.announcedPrice || 0) - (v.discount || 0);
+        // FIX: Added initial value of 0 to reduce() to prevent errors on empty arrays.
         const totalCosts = (v.purchasePrice || 0) + (v.maintenance || []).reduce((sum, m) => sum + m.cost, 0);
         return acc + (salePrice - totalCosts);
     }, 0);

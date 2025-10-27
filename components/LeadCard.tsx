@@ -479,7 +479,31 @@ export const LeadCard: React.FC<LeadCardProps> = ({ lead, onClick, isProspecting
                     )}
                 </div>
 
-                {leadStage && !['Novos Leads', 'Finalizados', 'Remanejados'].includes(leadStage.name) && (
+                {leadStage?.name === 'Agendado' && appointmentTimestamp && (
+                    <div className="mt-3 pt-3 border-t border-dark-border space-y-2">
+                        <p className="text-xs text-dark-secondary font-bold uppercase">Agendamento</p>
+                        <div className="flex items-center justify-between gap-2 p-2 bg-dark-background rounded-lg">
+                            <div className="flex items-center gap-2">
+                                <CalendarIcon className="w-4 h-4 text-dark-primary" />
+                                <span className="text-sm font-semibold">{new Date(appointmentTimestamp).toLocaleString('pt-BR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>
+                            </div>
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    const appointmentDate = new Date(appointmentTimestamp);
+                                    setAppointmentDate(appointmentDate.toISOString().split('T')[0]);
+                                    setAppointmentTime(appointmentDate.toTimeString().split(' ')[0].substring(0, 5));
+                                    setIsAppointmentModalOpen(true);
+                                }}
+                                className="text-xs font-bold px-2 py-1 rounded-md bg-dark-border/50 hover:bg-dark-border transition-colors text-dark-primary"
+                            >
+                                Reagendar
+                            </button>
+                        </div>
+                    </div>
+                )}
+
+                {leadStage && !['Novos Leads', 'Finalizados', 'Remanejados', 'Agendado'].includes(leadStage.name) && (
                     <div className="mt-3 pt-3 border-t border-dark-border space-y-3 animate-fade-in">
                         {lead.leadPhone && (
                             <div className="flex items-center justify-between gap-2 text-sm text-dark-secondary">
